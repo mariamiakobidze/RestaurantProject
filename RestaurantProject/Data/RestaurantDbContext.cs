@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RestaurantProject.Models.Entities;
 
 
 namespace RestaurantProject.Data
@@ -15,6 +16,6 @@ namespace RestaurantProject.Data
         {
         }
 
-        //
+     public DbSet<Product> Products { get; set; }
     }
 }
