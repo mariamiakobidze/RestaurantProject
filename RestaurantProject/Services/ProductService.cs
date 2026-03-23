@@ -1,6 +1,6 @@
 ﻿namespace RestaurantProject.Services
 {
-    public class BasketsService : IBasketsService
+    public class ProductService : IProductService 
     {
     }
 }

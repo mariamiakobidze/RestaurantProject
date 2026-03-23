@@ -1,6 +1,6 @@
 ﻿namespace RestaurantProject.Models.Entities
 {
-    public class Baskets
+    public class Basket
     {
         public int productId { get; set; }  
         public int quantity { get; set; }   

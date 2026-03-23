@@ -12,9 +12,9 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<RestaurantDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("RestaurantDbContext") ?? throw new InvalidOperationException(" RestaurantDbContext’ does not exist.")));
 
-builder.Services.AddScoped<IBasketsService, BasketsService>(  );
-builder.Services.AddScoped<ICategoriesService, CategoriesService>();
-builder.Services.AddScoped<IProductService, ProductsService>();
+builder.Services.AddScoped<IBasketService, BasketService>(  );
+builder.Services.AddScoped<ICategoryService, CategorieService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
@@ -33,4 +33,4 @@ app.MapControllers();
 app.Run();
 
 
-app.RunAsync();
+Task task = app.RunAsync();
