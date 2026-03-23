@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantProject.Models.Entities;
 using RestaurantProject.Services;
 
 namespace RestaurantProject.Controllers
@@ -21,10 +22,20 @@ namespace RestaurantProject.Controllers
             return Ok(products);
         }
         [HttpGet("{id}")]
-        public IActionResult Get(int id) {
+        public IActionResult Get(int id)
+        {
             var product = productService.GetById(id);
             if (product == null)
                 return NotFound();
             return Ok(product);
 
-        } }
+        }
+        [HttpPost]
+        public IActionResult Add(Product product)
+        {
+            productService.Add(product);
+            return Ok();
+        }
+         [HttpPut("{id}")]
+    }
+}

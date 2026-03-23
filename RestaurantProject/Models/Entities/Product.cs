@@ -14,16 +14,19 @@ namespace RestaurantProject.Models.Entities
         [Required(ErrorMessage = "Price can not be blank")]
         [Column("price", TypeName = "decimal(6,2)")]
 
-        public decimal Price { get; set; }  
+        public decimal Price { get; set; }
 
-        public bool Nuts { get; set; }  
-
-        public int CategoryId { get; set; }
-
+        [Column("nuts")]
+        public bool Nuts { get; set; }
+        [Column("categoryId")]
+     
+        public int CategoryId { get; set; } = 0;
+        [Column("spiciness")]
         public int Spiciness { get; set; }  = 0;
         
         public bool Vegetarian { get; set; }
-
+        [Column("image")]
+        [Required(ErrorMessage = "Image is required")]
         public required string Image { get; set; }   
     }
 }
