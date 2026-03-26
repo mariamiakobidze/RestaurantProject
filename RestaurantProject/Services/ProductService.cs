@@ -1,30 +1,63 @@
-﻿using RestaurantProject.Models.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using RestaurantProject.Data;
+using RestaurantProject.Models.Entities;
+using System.Data;
+using System.Threading.Tasks;
 
 namespace RestaurantProject.Services
 {
-    public class ProductService : IProductService
+    public class ProductService(RestaurantDbContext context, ILogger<ProductService> logger) : IProductService
     {
-        public void Add(Product product)
+        private readonly RestaurantDbContext context = context;
+        private readonly ILogger<ProductService> logger = logger;
+        public async Task Add(Product product)
         {
-            throw new NotImplementedException();
+            
+            await context.Products.AddAsync(product);   
+            await context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            await context.Baskets.ExecuteDeleteAsync();
+            await context.SaveChangesAsync();
         }
 
-        public List<Product> GetAll()
+        public async Task<List<Product>>GetAllAsync()
         {
-            throw new NotImplementedException();
+            logger.LogInformation("Get products from database");
+
+            return await context.Products.ToListAsync();
         }
 
-        public Product? GetById(int id)
+        public async Task<Product?> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await context.Products.Where(c => c.Id == id).FirstOrDefaultAsync();
         }
 
-        public void Update(int id, Product product)
+        public async Task Update(int id, Product product)
+        {
+            if (product == null) throw new ArgumentNullException(nameof(product));
+
+            try
+            {
+                var existingProduct = await context.Products.FindAsync(id);
+                if (existingProduct == null) throw new KeyNotFoundException($"Product id not found.");
+
+                existingProduct.Name = product.Name;
+                existingProduct.Price = product.Price;
+
+                await context.SaveChangesAsync();
+            }
+            catch (DBConcurrencyException ex)
+            {
+                logger.LogError(ex, $"Error updating product id");
+                throw;
+            }
+        }
+
+        Product? IProductService.GetById(int id)
         {
             throw new NotImplementedException();
         }

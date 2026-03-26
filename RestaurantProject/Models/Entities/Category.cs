@@ -7,10 +7,10 @@ namespace RestaurantProject.Models.Entities
     {
         [Key]
         [Column("id")]
-
         public int Id { get; set; }
-        [Column("id")]
+
+        [Column("name")]
         [Required(ErrorMessage = "Name is required")]
-        public string Name { get; set; }    
+        public string Name { get; set; } = null!;
     }
 }

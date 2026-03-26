@@ -1,27 +1,58 @@
-﻿using RestaurantProject.Models.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantProject.Data;
+using RestaurantProject.Models.Entities;
+using System.Threading.Tasks;
 
 namespace RestaurantProject.Services
 {
-    public class BasketService : IBasketService
+    public class BasketService(RestaurantDbContext context) : IBasketService
     {
-        public void Add(Basket item)
+        private readonly RestaurantDbContext context = context;
+        public async Task Add(Basket item)
         {
-            throw new NotImplementedException();
+            await context.Baskets.AddAsync(item);
+            await context.SaveChangesAsync();
         }
 
-        public void Clear()
+        public async Task Clear()
         {
-            throw new NotImplementedException();
+            await context.Baskets.ExecuteDeleteAsync();
+            await context.SaveChangesAsync();
         }
 
-        public List<Basket> GetAll()
+        public async Task<List<Basket>> GetAll()
         {
-            throw new NotImplementedException();
+            return await context.Baskets.ToListAsync();
+  
         }
 
-        public void Remove(int productId)
+        public async Task Remove(int productId)
         {
-            throw new NotImplementedException();
+            await context.Baskets.Where(b => b.ProductId == productId).ExecuteDeleteAsync();
+            await context.SaveChangesAsync();
+        }
+
+        async Task IBasketService.Add(Basket item)
+        {
+            await context.Baskets.AddAsync(item);
+            await context.SaveChangesAsync();
+        }
+
+        async Task IBasketService.Clear()
+        {
+           await context.Baskets.ExecuteDeleteAsync();
+            await context.SaveChangesAsync();
+        }
+
+        async Task<List<Basket>> IBasketService.GetAll()
+        {
+            return await context.Baskets.ToListAsync();
+        }
+
+        async Task IBasketService.Remove(int productId)
+        {
+           await context.Baskets.Where(b => b.ProductId == productId).ExecuteDeleteAsync();
+            await context.SaveChangesAsync();   
         }
     }
 }
