@@ -1,6 +1,8 @@
-﻿namespace RestaurantProject.Models.Entities
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace RestaurantProject.Models.Entities
 {
-    public class ApplicationRole
+    public class ApplicationRole : IdentityRole<Guid> 
     {
     }
 }
