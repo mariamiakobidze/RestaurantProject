@@ -12,5 +12,6 @@ namespace RestaurantProject.Models.Entities
         [Column("name")]
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; } = null!;
+        public List<Product> Products { get; set; } = new List<Product>();
     }
 }

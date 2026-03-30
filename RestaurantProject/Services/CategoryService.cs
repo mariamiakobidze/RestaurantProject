@@ -31,8 +31,10 @@ namespace RestaurantProject.Services
 
         public async Task<Category?> GetById(int id)
         {
-            return await context.Categories.Where(c => c.Id == id).FirstOrDefaultAsync();
-
+            return await context.Categories
+                .Include(c => c.Products)
+                .Where(c => c.Id == id)
+                .FirstOrDefaultAsync();
         }
 
         public async Task Update(int id, Category category)
